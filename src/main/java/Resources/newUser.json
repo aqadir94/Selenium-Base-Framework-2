@@ -1,0 +1,26 @@
+{
+	"email": "lbnmlokpo04@gmail.com",
+	"title": "mrs",
+	"fname": "john",
+	"lname": "doe",
+	"pword": "123456",
+	"bday": "12",
+	"bmonth": "1",
+	"byear": "1989",
+	"nletter": "yes",
+	"soffer": "yes",
+	"company": "ABC",
+	"Address": "12/A Rouge Valley",
+	"city": "Colorado",
+	"state": "New York",
+	"postal": "12345",
+	"mphone": "6476959889",
+	"aalias": "home",
+
+	"adddet": [{
+		"1": "2",
+		"3": "4"
+
+	}]
+
+}
