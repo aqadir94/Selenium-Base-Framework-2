@@ -26,7 +26,7 @@ public class listeners extends Base implements ITestListener {
 	@Override
 	public void onTestStart(ITestResult result) {
 		
-		test=er.createTest("First Test");
+		test=er.createTest("Test "+Base.getTime());
 		extentTest.set(test);
 		
 	}

@@ -1,8 +1,15 @@
 package Tests;
 
 import java.io.FileNotFoundException;
+import functions.AddToCart;
+import functions.SignUp;
+import functions.checkOut;
+
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.util.List;
+
 import PageObjects.Common;
 import PageObjects.SignInPage;
 
@@ -13,6 +20,10 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
@@ -47,114 +58,34 @@ public class Test1 extends Base {
 	}
 	
 	@Test
-	public void test() throws InterruptedException {
+	public void test() throws IOException, InterruptedException {
 		
 		
 		
+		SignUp client1=new SignUp();
+		
+		//client1.clientSignup(driver,prop);
+		driver.manage().window().maximize();
+		client1.logIn("asd123asdfa@gmail.com", "123456", prop, driver);
+		Actions act=new Actions(driver);
+		
+		WebElement lnk_Women=driver.findElement(By.xpath("//a[@title='Women']"));
 		
 		
-		Common h1=new Common(driver);
+		WebDriverWait wait=new WebDriverWait(driver,5);
+		
+		
+		lnk_Women.click();
+		//Thread.sleep(5000);
+		
+	AddToCart add=new AddToCart();
+	add.add(driver, "Blouse");
+	add.add(driver, "Faded Short Sleeve T-shirts");
+	add.add(driver, "Printed Chiffon Dress");
 	
-		
-		String path=System.getProperty("user.dir");
-		JSONParser parser= new JSONParser();
-		JSONObject jsonObj=null;
-		try {
-			Object obj=parser.parse(new FileReader(path+"\\src\\main\\java\\Resources\\newUser.json"));
-			 jsonObj=(JSONObject)obj;
-			
-		}  catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		
-		
-		
-		driver.get(prop.getProperty("url"));
-		
-		
-		String email=(String)jsonObj.get("email");
-		String title=(String)jsonObj.get("title");
-		String fname=(String)jsonObj.get("fname");
-		String lname=(String)jsonObj.get("lname");
-		String pword=(String)jsonObj.get("pword");
-		String bday=(String)jsonObj.get("bday");
-		String bmonth=(String)jsonObj.get("bmonth");
-		String byear=(String)jsonObj.get("byear");
-		String nletter=(String)jsonObj.get("nletter");
-		String soffer=(String)jsonObj.get("soffer");
-		String company=(String)jsonObj.get("company");
-		String address=(String)jsonObj.get("Address");
-		String city=(String)jsonObj.get("city");
-		String state=(String)jsonObj.get("state");
-		String postal=(String)jsonObj.get("postal");
-		String mphone=(String)jsonObj.get("mphone");
-		String aalias=(String)jsonObj.get("aalias");
-		SignInPage sip=new SignInPage(driver);
-		
-		
-		String hpVerifier=driver.findElement(By.xpath("//h1")).getText();
-		sa.assertEquals("Automation Practice Website", hpVerifier);
-		log.debug("Website verified");
-		
-		
-		h1.getSignInBtn().click();
-		
-		String signInPageVerifier=driver.findElement(By.xpath("(//h3)[1]")).getText();
+	checkOut c1=new checkOut();
+	c1.checkoutItem(driver, wait, act, log);
 	
-		
-		
-		sa.assertEquals(signInPageVerifier, "CREATE AN ACCOUNT");
-		
-		
-		h1.getSignInEmailtxtbx().sendKeys(email);
-		driver.findElement(By.xpath("//button[@id='SubmitCreate']")).click();
-		
-		Thread.sleep(2000);
-		String signInInfoVfier=driver.findElement(By.xpath("//h1")).getText();
-		
-		Assert.assertEquals(signInInfoVfier, "CREATE AN ACCOUN");
-		
-		if(title.contentEquals("mr")) {
-			
-			sip.getSalMr().click();
-			
-			
-		}
-		
-		else if(title.contentEquals("mrs")) {
-			
-			sip.getSalMrs().click();
-		}
-		
-		sip.getfirstName().sendKeys(fname);
-		sip.getlastName().sendKeys(lname);
-		sip.getpassWord().sendKeys(pword);
-		sip.selectDOB(bday);
-		sip.selectDOM(bmonth);
-		sip.selectDOY(byear);
-		
-		if(nletter.equalsIgnoreCase("yes")) {
-		
-		sip.getnewsLetter().click();
-		
-		}
-		
-		
-		
-		
-		sip.getaddFName().sendKeys(fname);
-		sip.getaddLName().sendKeys(lname);
-		sip.getcompany().sendKeys(company);
-		sip.getaddL1().sendKeys(address);
-		sip.getcity().sendKeys(city);
-		sip.selectState(state);
-		sip.getpostCode().sendKeys(postal);
-		sip.getmobilePn().sendKeys(mphone);
-		sip.getaddAlias().sendKeys(aalias);
-		sip.getregister().click();
-		
 	
 	
 	}
@@ -163,10 +94,10 @@ public class Test1 extends Base {
 
 	@AfterTest
 	public void terminate() throws InterruptedException {
-		sa.assertAll();
+		//sa.assertAll();
 		
 		Thread.sleep(5000);
-		driver.quit();
+		//driver.quit();
 		
 		
 	}
